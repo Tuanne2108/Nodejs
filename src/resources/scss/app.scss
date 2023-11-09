@@ -1,9 +1,24 @@
 @import 'variables';
-h1{
-    color: $red-color;
-    text-align: center;
+
+.card-product-item{
+    margin-top: 20px;
 }
-h2{
-    color: aquamarine;
-    text-align: center;
+.card-title{
+    color: purple;
+}
+.img-thumbnail{
+    width: 225px;
+    height: 225px;
+    margin-bottom: 10px;
+}
+.btn-buy{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+a{
+    text-decoration: none;
+}
+.logo{
+    width: 78px;
+    height: 78px;
 }
