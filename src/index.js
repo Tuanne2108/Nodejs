@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const port = 3000;
 const route = require("./routes");
 const db = require("./config/db");
+const methodOverride = require("method-override");
 
 //Connect to db
 db.connect();
@@ -20,11 +21,16 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 //Http logger
 app.use(morgan("combined"));
+//Method Override
+app.use(methodOverride("_method"));
 //Template engine
 app.engine(
     "hbs",
     hbs.engine({
         extname: "hbs",
+        helpers: {
+            sum: (a, b) => a + b,
+        },
     })
 );
 app.set("view engine", "hbs");

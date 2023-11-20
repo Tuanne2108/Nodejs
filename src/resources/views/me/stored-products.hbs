@@ -1,0 +1,29 @@
+<div class="mt-4">
+    <h3 style="color: brown;">My products</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Created Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+                <tr>
+                    <th scope="row">{{sum @index 1}}</th>
+                    <td>{{this.name}}</td>
+                    <td>{{this.type}}</td>
+                    <td>{{this.price}}</td>
+                    <td>{{this.createdAt}}</td>
+                    <td>
+                        <a href="/products/{{this._id}}/edit"><button type="button" class="btn btn-outline-primary">Edit</button></a>
+                        <a href=""><button type="button" class="btn btn-outline-danger">Delete</button></a>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
