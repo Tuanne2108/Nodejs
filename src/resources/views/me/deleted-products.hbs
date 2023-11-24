@@ -1,7 +1,7 @@
 <div class="mt-4">
     <div>
-        <h3 style="color: brown;">My products</h3>
-        <a href="/me/deleted/products">Trash bin ({{deletedProducts}})</a>
+        <a href="/me/stored/products">List of products</a>
+        <h3 style="color: brown;">Deleted products</h3>
     </div>
     <table class="table table-striped">
         <thead>
@@ -10,7 +10,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Type</th>
                 <th scope="col">Price</th>
-                <th scope="col">Created Date</th>
+                <th scope="col">Deleted Date</th>
             </tr>
         </thead>
         <tbody>
@@ -20,40 +20,39 @@
                 <td>{{this.name}}</td>
                 <td>{{this.type}}</td>
                 <td>{{this.price}}</td>
-                <td>{{this.createdAt}}</td>
+                <td>{{this.deletedAt}}</td>
                 <td>
-                    <a href="/products/{{this._id}}/edit"><button
-                            type="button"
-                            class="btn btn-outline-primary">Edit</button></a>
+                    <a data-bs-id="{{this._id}}"
+                            class="btn btn-outline-primary btn-restore">
+                            Restore</a>
                     <a
                         data-bs-toggle="modal"
                         data-bs-target="#delete-product-modal"
                         data-bs-id="{{this._id}}"><button
                             type="button"
-                            class="btn btn-outline-danger">Delete</button></a>
+                            class="btn btn-outline-danger">Permanently delete</button></a>
                 </td>
             </tr>
             {{else}}
-            <tr>
-                <td colspan="5" class="text-center">
-                    No Products Found!
-                    <a href="/products/create">Add new product here</a>
-                </td>
-            </tr>
+            <td>
+                Empty...
+                <a href="/me/stored/products">List of products</a>
+            </td>
             {{/each}}
         </tbody>
     </table>
 </div>
 
-{{! Delete form }}
+{{!-- Form --}}
 <form name="delete-product-form" method="POST"></form>
+<form name="restore-product-form" method="POST"></form>
 
 <!-- Delete product Modal -->
 <div id="delete-product-modal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete product</h5>
+                <h5 class="modal-title">Deleted product</h5>
                 <button
                     type="button"
                     class="btn-close"
@@ -61,7 +60,7 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure to delete this product?</p>
+                <p>This action can not undo. Do you still want to do it?</p>
             </div>
             <div class="modal-footer">
                 <button
@@ -78,12 +77,14 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     // When click delete button at the table 
     const deleteModal = document.getElementById('delete-product-modal');
     var productId;
     var deleteForm = document.forms['delete-product-form'];
+    var restoreForm = document.forms['restore-product-form'];
     var deleteBtn = document.getElementById('btn-delete-product');
+    var restoreBtn = $('.btn-restore')
 
     $('#delete-product-modal').on('show.bs.modal', function(event){
         var button = $(event.relatedTarget)
@@ -92,8 +93,14 @@
 
     // When click confirm dialog delete button 
    deleteBtn.addEventListener('click', function () {
-        deleteForm.action = '/products/' + productId + '?_method=DELETE';
+        deleteForm.action = '/products/' + productId + '/force?_method=DELETE';
         deleteForm.submit();
     });
+    restoreBtn.click(function(e) {
+        var productId = $(this).data('bs-id')
+        restoreForm.action = '/products/' + productId + '/restore?_method=PATCH';
+        restoreForm.submit();
     });
+});
+
 </script>
