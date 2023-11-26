@@ -1,0 +1,42 @@
+<div class="mt-4">
+    <div class="row">
+        <div class="col-lg-6">
+            <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-y9RroUFoHFlrzSJNRwiiByMxxKQQLhwGrw&usqp=CAU"
+                class="img-thumbnail"
+                alt=""
+            />
+            <img
+                src="https://sneakerholicvietnam.vn/wp-content/uploads/2022/08/nike-air-force-1-low-white-taupe-dr9867-100.jpg"
+                class="img-thumbnail"
+                alt=""
+            />
+            <img
+                src="https://sneakerdaily.vn/wp-content/uploads/2022/03/Giay-Nike-Air-Force-1-Low-GS-White-Aura-CT3839-106.jpg"
+                alt=""
+                class="img-thumbnail"
+            />
+            <img
+                src="https://sneakerholicvietnam.vn/wp-content/uploads/2023/02/nike-air-force-1-low-summit-white-command-force-dr0148-101.jpg"
+                class="img-thumbnail"
+                alt=""
+            />
+        </div>
+        <div class="col">
+            <h2>{{product.name}}</h2>
+            <p>{{product.price}}</p>
+            <label for="size">Choose your size:</label>
+            <select name="size" id="size">
+                <option value="volvo">EU 38.5</option>
+                <option value="saab">EU 39</option>
+                <option value="mercedes">EU 40</option>
+                <option value="audi">EU 40.5</option>
+            </select>
+            <div class="btn-buy"><button type="button" class="btn btn-dark">Buy it!</button></div>
+            <div class="review-item-clip">
+                <h3>Review</h3>
+                <iframe width="500" height="255" src="https://www.youtube.com/embed/{{product.videoId}}?si=PU-oZfDtLqqPP7GU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+        </div>
+    </div>
+
+</div>
