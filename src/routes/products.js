@@ -5,6 +5,7 @@ const productsController = require("../controllers/ProductsController");
 router.get("/create", productsController.create)
 router.post("/store", productsController.store);
 router.get("/:slug", productsController.show);
+router.post("/action-selected-handle", productsController.actionHandle);
 router.put("/:id", productsController.update);
 router.patch("/:id/restore", productsController.restore);
 router.delete("/:id", productsController.delete);

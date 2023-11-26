@@ -58,6 +58,14 @@ class ProductsController {
         .then(()=> res.redirect('back'))
         .catch(next)
     }
+    //[POST] /products/action-selected-handle
+    actionHandle(req, res, next){
+        Product.delete({_id:{
+            $in: req.body.productIds
+        }})
+        .then(()=> res.redirect('back'))
+        .catch(next)
+    }
 }
 
 module.exports = new ProductsController();

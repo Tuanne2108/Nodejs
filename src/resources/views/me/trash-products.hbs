@@ -23,6 +23,7 @@
                 <td>{{this.deletedAt}}</td>
                 <td>
                     <a data-bs-id="{{this._id}}"
+                            href=""
                             class="btn btn-outline-primary btn-restore">
                             Restore</a>
                     <a
@@ -79,12 +80,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // When click delete button at the table 
-    const deleteModal = document.getElementById('delete-product-modal');
+    var deleteModal = document.getElementById('delete-product-modal');
     var productId;
     var deleteForm = document.forms['delete-product-form'];
     var restoreForm = document.forms['restore-product-form'];
     var deleteBtn = document.getElementById('btn-delete-product');
     var restoreBtn = $('.btn-restore')
+
 
     $('#delete-product-modal').on('show.bs.modal', function(event){
         var button = $(event.relatedTarget)
@@ -97,9 +99,10 @@ document.addEventListener('DOMContentLoaded', function () {
         deleteForm.submit();
     });
     restoreBtn.click(function(e) {
-        var productId = $(this).data('bs-id')
+        e.preventDefault(); 
+        var productId = $(this).data('bs-id');
         restoreForm.action = '/products/' + productId + '/restore?_method=PATCH';
-        restoreForm.submit();
+        restoreForm.submit()
     });
 });
 

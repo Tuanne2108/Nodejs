@@ -12,11 +12,11 @@ class MeController {
         })
         .catch(next)
     }
-    //[GET] /me/deleted/products
+    //[GET] /me/trash/products
     deletedProducts(req, res, next) {
         Product.findDeleted({})
             .then((products) =>
-                res.render("me/deleted-products", {
+                res.render("me/trash-products", {
                     products: multipleMongooseToObject(products),
                 })
             )
