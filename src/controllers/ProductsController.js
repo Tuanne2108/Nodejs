@@ -59,8 +59,22 @@ class ProductsController {
         .catch(next)
     }
     //[POST] /products/action-selected-handle
-    actionHandle(req, res, next){
+    actionDeleteHandle(req, res, next){
         Product.delete({_id:{
+            $in: req.body.productIds
+        }})
+        .then(()=> res.redirect('back'))
+        .catch(next)
+    }
+    actionForceDeleteHandle(req, res, next){
+        Product.deleteOne({_id:{
+            $in: req.body.productIds
+        }})
+        .then(()=> res.redirect('back'))
+        .catch(next)
+    }
+    actionRestoreHandle(req, res, next){
+        Product.restore({_id:{
             $in: req.body.productIds
         }})
         .then(()=> res.redirect('back'))

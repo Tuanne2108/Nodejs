@@ -1,4 +1,5 @@
-<div class="mt-4">
+<form name="container-form" class="mt-4" method="POST"
+    action="/products/action-selected-handle/restore">
     <div>
         <a href="/me/stored/products">List of products</a>
         <h3 style="color: brown;">Deleted products</h3>
@@ -66,7 +67,7 @@
             {{/each}}
         </tbody>
     </table>
-</div>
+</form>
 
 {{!-- Form --}}
 <form name="delete-product-form" method="POST"></form>
@@ -103,15 +104,22 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // When click delete button at the table 
+    var productId, canSubmitted;
     var deleteModal = document.getElementById('delete-product-modal');
-    var productId;
     var deleteForm = document.forms['delete-product-form'];
     var restoreForm = document.forms['restore-product-form'];
+    var containerForm = document.forms['container-form']
+
     var deleteBtn = document.getElementById('btn-delete-product');
     var restoreBtn = $('.btn-restore')
+    var checkboxAll = $('#checkbox-all') 
+    var productItemCheckbox = $('input[name="productIds[]"]')
+    var applyBtn = $('.btn-apply-action');
+    var selectAction = $('select[name="action-select"]');
 
 
+
+    // When click delete button at the table 
     $('#delete-product-modal').on('show.bs.modal', function(event){
         var button = $(event.relatedTarget)
         productId = button.data('bs-id')
@@ -128,6 +136,37 @@ document.addEventListener('DOMContentLoaded', function () {
         restoreForm.action = '/products/' + productId + '/restore?_method=PATCH';
         restoreForm.submit()
     });
+
+    checkboxAll.change(function() {
+        var isChecked = $(this).prop('checked')
+        productItemCheckbox.prop('checked', isChecked);
+        activateApplyButton();
+    });
+
+    productItemCheckbox.change(function(){
+        var isCheckedAll = productItemCheckbox.length === $('input[name="productIds[]"]:checked').length
+        checkboxAll.prop('checked', isCheckedAll)
+        activateApplyButton();
+    })
+    applyBtn.click(function(){
+        containerForm.submit();
+    })
+    selectAction.change(function(){
+        var selectedOption = $(this).val();
+        var validAction = $(this).find('option[value="' + selectedOption + '"]').addClass('selected');
+        canSubmitted = validAction;
+        $(this).find('option').removeClass('selected');
+        activateApplyButton();
+    })
+    function activateApplyButton(){
+        var checkCount = $('input[name="productIds[]"]:checked').length;
+        if(checkCount && canSubmitted.val()!==""){
+            applyBtn.removeClass('disabled')
+        }else{
+            applyBtn.addClass('disabled')
+        }
+    }
+
 });
 
 </script>

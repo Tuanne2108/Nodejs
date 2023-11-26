@@ -1,5 +1,5 @@
 <form class="mt-4" name="container-form" method="POST"
-    action="/products/action-selected-handle">
+    action="/products/action-selected-handle/delete">
     <div>
         <h3 style="color: brown;">My products</h3>
         <a href="/me/trash/products">Trash bin ({{deletedProducts}})</a>
@@ -105,8 +105,7 @@
     document.addEventListener('DOMContentLoaded', function () {
     // When click delete button at the table 
     var deleteModal = document.getElementById('delete-product-modal');
-    var productId;
-    var canSubmitted;
+    var productId, canSubmitted;
     var deleteForm = document.forms['delete-product-form'];
     var containerForm = document.forms['container-form'];
     var deleteBtn = document.getElementById('btn-delete-product');
