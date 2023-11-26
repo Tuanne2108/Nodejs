@@ -1,2 +1,1 @@
-# shoesStore
-Project with Nodejs
+# Nodejs

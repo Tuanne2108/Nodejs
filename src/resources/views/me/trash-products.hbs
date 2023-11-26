@@ -1,0 +1,133 @@
+<div class="mt-4">
+    <div>
+        <a href="/me/stored/products">List of products</a>
+        <h3 style="color: brown;">Deleted products</h3>
+        <div class="mt-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value
+                    id="checkbox-all">
+                <label class="form-check-label" for="checkbox-all">
+                    Select all
+                </label>
+                <select class="form-select-action form-control-sm"
+                    name="action-select" id="selection">
+                    <option value>Choose action</option>
+                    <option value="restore">Restore</option>
+                    <option value="destroy">Permanently delete</option>
+                </select>
+                <button type="button"
+                    class="btn btn-primary btn-apply-action disabled">Apply</button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Deleted Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                            name="productIds[]" value="{{this._id}}">
+                    </div>
+                </td>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.type}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.deletedAt}}</td>
+                <td>
+                    <a data-bs-id="{{this._id}}"
+                        href
+                        class="btn btn-outline-primary btn-restore">
+                        Restore</a>
+                    <a
+                        data-bs-toggle="modal"
+                        data-bs-target="#delete-product-modal"
+                        data-bs-id="{{this._id}}"><button
+                            type="button"
+                            class="btn btn-outline-danger">Permanently delete</button></a>
+                </td>
+            </tr>
+            {{else}}
+            <td colspan="6" class="text-center">
+                Empty...
+                <a href="/me/stored/products">List of products</a>
+            </td>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+{{!-- Form --}}
+<form name="delete-product-form" method="POST"></form>
+<form name="restore-product-form" method="POST"></form>
+
+<!-- Delete product Modal -->
+<div id="delete-product-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Deleted product</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>This action can not undo. Do you still want to do it?</p>
+            </div>
+            <div class="modal-footer">
+                <button
+                    id="btn-delete-product"
+                    type="button"
+                    class="btn btn-danger">Delete</button>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // When click delete button at the table 
+    var deleteModal = document.getElementById('delete-product-modal');
+    var productId;
+    var deleteForm = document.forms['delete-product-form'];
+    var restoreForm = document.forms['restore-product-form'];
+    var deleteBtn = document.getElementById('btn-delete-product');
+    var restoreBtn = $('.btn-restore')
+
+
+    $('#delete-product-modal').on('show.bs.modal', function(event){
+        var button = $(event.relatedTarget)
+        productId = button.data('bs-id')
+    })
+
+    // When click confirm dialog delete button 
+   deleteBtn.addEventListener('click', function () {
+        deleteForm.action = '/products/' + productId + '/force?_method=DELETE';
+        deleteForm.submit();
+    });
+    restoreBtn.click(function(e) {
+        e.preventDefault(); 
+        var productId = $(this).data('bs-id');
+        restoreForm.action = '/products/' + productId + '/restore?_method=PATCH';
+        restoreForm.submit()
+    });
+});
+
+</script>
