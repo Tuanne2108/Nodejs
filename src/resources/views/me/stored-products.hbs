@@ -12,7 +12,7 @@
                 </label>
                 <select class="form-select-action form-control-sm"
                     name="action-select" id="selection">
-                    <option value="">Choose action</option>
+                    <option value>Choose action</option>
                     <option value="delete">Delete</option>
                 </select>
                 <button type="button"
@@ -25,10 +25,20 @@
             <tr>
                 <th></th>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Price</th>
-                <th scope="col">Created Date</th>
+                <th scope="col">
+                    Name
+                    {{{canSorted 'name' _sort}}}
+                </th>
+                <th scope="col">
+                    Type
+                    {{{canSorted 'type' _sort}}}
+                </th>
+                <th scope="col">
+                    Price
+                    {{{canSorted 'price' _sort}}}
+                </th>
+                <th scope="col">Created Date
+                    {{{canSorted 'createdAt' _sort}}}
             </tr>
         </thead>
         <tbody>

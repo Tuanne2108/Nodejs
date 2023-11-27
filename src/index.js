@@ -7,6 +7,7 @@ const port = 3000;
 const route = require("./routes");
 const db = require("./config/db");
 const methodOverride = require("method-override");
+const sortMiddleware = require("./middlewares/sortMiddleware");
 
 //Connect to db
 db.connect();
@@ -23,6 +24,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("combined"));
 //Method Override
 app.use(methodOverride("_method"));
+//Custom middlewares
+app.use(sortMiddleware);
 //Template engine
 app.engine(
     "hbs",
@@ -30,6 +33,17 @@ app.engine(
         extname: "hbs",
         helpers: {
             sum: (a, b) => a + b,
+            canSorted: (field, sort)=>{
+                const sortType = field === sort.column ? sort.type : 'default';
+                const icons ={
+                    default: 'bi bi-funnel',
+                    desc: 'bi bi-sort-down',
+                    asc: 'bi bi-sort-down-alt',
+                }
+                const type = sortType === 'desc'? 'asc' : 'desc';
+                const icon = icons[sortType];
+                return `<a href="?_sort&column=${field}&type=${type}"><i class="${icon}"></i></a>`
+            }
         },
     })
 );
