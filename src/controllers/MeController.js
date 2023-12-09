@@ -3,29 +3,37 @@ const { multipleMongooseToObject } = require("../util/mongoose");
 class MeController {
     //[GET] /me/stored/products
     storedProducts(req, res, next) {
-        let productQuery = Product.find({})
-        if(req.query.hasOwnProperty('_sort')){
+        let productQuery = Product.find({});
+        if (req.query.hasOwnProperty("_sort")) {
             productQuery = productQuery.sort({
                 [req.query.column]: req.query.type,
-            })
+            });
         }
         Promise.all([productQuery, Product.countDocumentsDeleted()])
-        .then(([products, deletedProducts])=>{
-            res.render("me/stored-products", {
-                deletedProducts,
-                products: multipleMongooseToObject(products),
+            .then(([products, deletedProducts]) => {
+                res.render("me/stored-products", {
+                    deletedProducts,
+                    products: multipleMongooseToObject(products),
+                });
             })
-        })
-        .catch(next)
+            .catch(next);
     }
     //[GET] /me/trash/products
+
     deletedProducts(req, res, next) {
-        Product.findDeleted({})
-            .then((products) =>
+        let productQuery = Product.findDeleted({});
+        if (req.query.hasOwnProperty("_sort")) {
+            productQuery = productQuery.sort({
+                [req.query.column]: req.query.type,
+            });
+        }
+        Promise.all([productQuery, Product.countDocumentsDeleted()])
+            .then(([products, deletedProducts]) => {
                 res.render("me/trash-products", {
+                    deletedProducts,
                     products: multipleMongooseToObject(products),
-                })
-            )
+                });
+            })
             .catch(next);
     }
 }

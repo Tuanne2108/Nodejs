@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const slug = require("mongoose-slug-generator");
 const mongooseDelete = require("mongoose-delete");
-
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 const Schema = mongoose.Schema;
 
 const Product = new Schema(
     {
+        _id: { type: Number },
         name: { type: String, required: true },
         type: { type: String },
         image: { type: String },
@@ -20,10 +21,12 @@ const Product = new Schema(
     },
     {
         timestamps: true,
+        _id:false
     }
 );
 //Plugins
 mongoose.plugin(slug);
+Product.plugin(AutoIncrement);
 mongoose.plugin(mongooseDelete, {
     deletedAt: true,
     overrideMethods: "all",

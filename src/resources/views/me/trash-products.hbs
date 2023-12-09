@@ -25,11 +25,22 @@
         <thead>
             <tr>
                 <th></th>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Price</th>
-                <th scope="col">Deleted Date</th>
+                <th scope="col">
+                    ID
+                    {{{canSorted '_id' _sort}}}
+                </th>
+                <th scope="col">Name
+                    {{{canSorted 'name' _sort}}}
+                </th>
+                <th scope="col">Type
+                    {{{canSorted 'type' _sort}}}
+                </th>
+                <th scope="col">Price
+                    {{{canSorted 'price' _sort}}}
+                </th>
+                <th scope="col">Deleted Date
+                    {{{canSorted 'deletedAt' _sort}}}
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +52,7 @@
                             name="productIds[]" value="{{this._id}}">
                     </div>
                 </td>
-                <th scope="row">{{sum @index 1}}</th>
+                <th scope="row">{{this._id}}</th>
                 <td>{{this.name}}</td>
                 <td>{{this.type}}</td>
                 <td>{{this.price}}</td>
